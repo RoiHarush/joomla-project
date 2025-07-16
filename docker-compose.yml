@@ -7,24 +7,26 @@ services:
     ports:
       - "8080:80"
     environment:
-      JOOMLA_DB_HOST: db
+      JOOMLA_DB_HOST: joomla_mysql        # חשוב להתאים לשם הקונטיינר של ה-DB
       JOOMLA_DB_USER: joomla_user
       JOOMLA_DB_PASSWORD: joomla_password
       JOOMLA_DB_NAME: joomla_db
     depends_on:
-      - db
+      - joomla_mysql
     volumes:
       - ./joomla_data:/var/www/html
 
-  db:
+  joomla_mysql:
     container_name: joomla_mysql
     image: mysql:5.7
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_ROOT_PASSWORD: my-secret-pw   # לפי מה שנתת בהתחלה
       MYSQL_DATABASE: joomla_db
       MYSQL_USER: joomla_user
       MYSQL_PASSWORD: joomla_password
+    ports:
+      - "3306:3306"
     volumes:
       - db_data:/var/lib/mysql
 
